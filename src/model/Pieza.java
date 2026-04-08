@@ -21,7 +21,7 @@ public class Pieza {
             case KING -> "Rey" + color + ".png";
             case QUEEN -> "Reyna" + color + ".png";
             case ROOK -> "Torre" + color + ".png";
-            case BISHOP -> "Alfil" + color + ".png";
+            case BISHOP -> "Arfil" + color + ".png";
             case KNIGHT -> "Caballo" + color + ".png";
             case PAWN -> "Peon" + color + ".png";
         };

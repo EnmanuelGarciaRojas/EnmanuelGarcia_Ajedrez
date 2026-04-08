@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
@@ -14,12 +15,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import game.Juego;
+import model.Pieza;
 import util.Constantes;
+
 public class Main extends Application{
     private static final Color COLOR_CELDA_CLARA = Color.web("#c8e8ff", 0.55);
     private static final Color COLOR_CELDA_NEGRA = Color.web("#000010", 0.90);
     private static final Color COLOR_SELECCIONADO = Color.web("#00eaff", 0.75);
 
+    private Juego juego;
     private GridPane tableroGrid;
     private StackPane[][] celdas;
     private Label turnoLabel;
@@ -32,6 +37,7 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage){
+        juego = new Juego();
         celdas = new StackPane[Constantes.TAMANO_TABLERO][Constantes.TAMANO_TABLERO];
         root = new BorderPane();
 
@@ -129,11 +135,24 @@ public class Main extends Application{
     private void actualizarCelda(int fila, int columna){
         StackPane celda = celdas[fila][columna];
         Rectangle rect = (Rectangle) celda.getChildren().get(0);
+        ImageView verImagen = (ImageView) celda.getChildren().get(1);
 
         rect.setFill((fila + columna) % 2 == 0 ? COLOR_CELDA_CLARA : COLOR_CELDA_NEGRA);
         
         if(filaSeleccionada == fila && columnaSeleccionada == columna){
             rect.setFill(COLOR_SELECCIONADO);
+        }
+
+        Pieza p = juego.getTablero().getPieza(fila, columna);
+        if(p != null){
+            try{
+                Image imagen = new Image("file:images/" + p.nombreImagen());
+                verImagen.setImage(imagen);
+            }catch(Exception e){
+                verImagen.setImage(null);
+            }
+        }else{
+            verImagen.setImage(null);
         }
     }
     public static void main(String[] args){
