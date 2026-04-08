@@ -1,6 +1,142 @@
 package ui;
-public class Main {
-    public static void main(String[] args) throws Exception {
+
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+
+import util.Constantes;
+public class Main extends Application{
+    private static final Color COLOR_CELDA_CLARA = Color.web("#c8e8ff", 0.55);
+    private static final Color COLOR_CELDA_NEGRA = Color.web("#000010", 0.90);
+    private static final Color COLOR_SELECCIONADO = Color.web("#00eaff", 0.75);
+
+    private GridPane tableroGrid;
+    private StackPane[][] celdas;
+    private Label turnoLabel;
+    private Label estadoLabel;
+    private BorderPane root;
+
+    private int filaSeleccionada = -1;
+    private int columnaSeleccionada = -1;
+
+
+    @Override
+    public void start(Stage stage){
+        celdas = new StackPane[Constantes.TAMANO_TABLERO][Constantes.TAMANO_TABLERO];
+        root = new BorderPane();
+
+        Scene scene = new Scene(root, Constantes.ANCHO_VENTANA, Constantes.ALTURA_VENTANA);
+        scene.getStylesheets().add(getClass().getResource("/Tablero.css").toExternalForm());
+
+        stage.setScene(scene);
+        stage.setTitle("Juego de Ajedrez");
+
+        mostrarMenu();
+        stage.show();
+    }
+
+    private void mostrarMenu(){
+        Label titulo = new Label("Ajedrez");
+        titulo.getStyleClass().add("titulo-menu");
+
+        Button jugar = new Button("Jugar");
+        jugar.setOnAction(e -> mostrarTablero());
+
+        Button salir = new Button("Salir");
+        salir.setOnAction(e -> System.exit(0));
+
+        VBox menu = new VBox(16, titulo, jugar, salir);
+        menu.setAlignment(Pos.CENTER);
+        menu.getStyleClass().add("menu-box");
+
+        root.setCenter(menu);
+        root.setTop(null);
+        root.setBottom(null);
+    }
+
+    private void mostrarTablero(){
+        tableroGrid = new GridPane();
+        tableroGrid.setAlignment(Pos.CENTER);
+
+        for(int fila = 0; fila < Constantes.TAMANO_TABLERO; fila++){
+            for(int columna = 0; columna < Constantes.TAMANO_TABLERO; columna++){
+                StackPane celda = crearCeldasTablero(fila, columna);
+                celdas[fila][columna] = celda;
+                tableroGrid.add(celda, columna, fila);
+            }
+        }
+
+        renderizarTablero();
+
+        Button reiniciar = new Button("Reiniciar partida");
+        reiniciar.setOnAction(e -> mostrarTablero());
+
+        Button menu = new Button("Menu");
+        menu.setOnAction(e -> mostrarMenu());
+
+        turnoLabel = new Label("Turno: Blancas");
+        estadoLabel = new Label("Jugada nueva");
+
+        BorderPane arriba = new BorderPane();
+        arriba.setLeft(turnoLabel);
+        arriba.setRight(estadoLabel);
+        arriba.getStyleClass().add("barra-arriba");
+
+        BorderPane abajo = new BorderPane();
+        abajo.setLeft(menu);
+        abajo.setCenter(reiniciar);
+        abajo.getStyleClass().add("barra-abajo");
+
+        root.setCenter(tableroGrid);
+        root.setTop(arriba);
+        root.setBottom(abajo);
+    }
+
+    private StackPane crearCeldasTablero(int fila, int columna){
+        StackPane celda = new StackPane();
+
+        Rectangle rect = new Rectangle(Constantes.TAMANO_CELDA, Constantes.TAMANO_CELDA);
+        rect.setStroke(Color.TRANSPARENT);
+        celda.getChildren().add(rect);
+
+        ImageView verImagen = new ImageView();
+        verImagen.setFitWidth(Constantes.TAMANO_PIEZA);
+        verImagen.setFitHeight(Constantes.TAMANO_PIEZA);
+        verImagen.setPreserveRatio(true);
+        celda.getChildren().add(verImagen);
+
+        return celda;
+    }
+
+    private void renderizarTablero(){
+        for(int fila = 0; fila < Constantes.TAMANO_TABLERO; fila++){
+            for(int columna = 0; columna < Constantes.TAMANO_TABLERO; columna++){
+                actualizarCelda(fila, columna);
+            }
+        }
+    }
+
+    private void actualizarCelda(int fila, int columna){
+        StackPane celda = celdas[fila][columna];
+        Rectangle rect = (Rectangle) celda.getChildren().get(0);
+
+        rect.setFill((fila + columna) % 2 == 0 ? COLOR_CELDA_CLARA : COLOR_CELDA_NEGRA);
+        
+        if(filaSeleccionada == fila && columnaSeleccionada == columna){
+            rect.setFill(COLOR_SELECCIONADO);
+        }
+    }
+    public static void main(String[] args){
         launch(args);
     }
 }

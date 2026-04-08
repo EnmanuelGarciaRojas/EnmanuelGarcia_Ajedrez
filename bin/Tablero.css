@@ -1,0 +1,128 @@
+/* ── Ventana principal ────────────────────────────────────── */
+.root {
+    -fx-background-color: #000010;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ── Área central (tablero) ───────────────────────────────── */
+.grid-pane {
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(gaussian, #5500ff88, 60, 0.4, 0, 0);
+    -fx-padding: 8;
+    -fx-border-color: #220055;
+    -fx-border-width: 2;
+    -fx-border-radius: 4;
+}
+
+/* ── Celdas del tablero ───────────────────────────────────── */
+
+/* Casillas claras  →  azul hielo / blanco cósmico           */
+.cell-light {
+    -fx-fill: #c8e8ff;
+    -fx-effect: innershadow(gaussian, #ffffff66, 6, 0.3, 0, 0);
+}
+
+/* Casillas oscuras  →  azul profundo / violeta               */
+.cell-dark {
+    -fx-fill: #1a1060;
+    -fx-effect: innershadow(gaussian, #3300aa44, 6, 0.4, 0, 0);
+}
+
+/* ── Barra superior (turno / estado) ─────────────────────── */
+.top-bar {
+    -fx-background-color: linear-gradient(to right, #0a003a, #1a0055, #0a003a);
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: #4400aa;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* ── Barra inferior (botones) ────────────────────────────── */
+.bottom-bar {
+    -fx-background-color: linear-gradient(to right, #0a003a, #1a0055, #0a003a);
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: #4400aa;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ── Etiquetas ───────────────────────────────────────────── */
+.label {
+    -fx-text-fill: #c8e8ff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.label-check {
+    -fx-text-fill: #ff4466;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #ff000088, 8, 0.5, 0, 0);
+}
+
+/* ── Botones ─────────────────────────────────────────────── */
+.button {
+    -fx-background-color: #1a0055;
+    -fx-text-fill: #c8e8ff;
+    -fx-border-color: #6600ff;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 6 18 6 18;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.button:hover {
+    -fx-background-color: #2a0088;
+    -fx-border-color: #00eaff;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, #00eaff88, 12, 0.5, 0, 0);
+}
+
+.button:pressed {
+    -fx-background-color: #00eaff22;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+/* ── Menú de inicio ──────────────────────────────────────── */
+.menu-box {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 70%,
+        #1a006688, #00001099);
+    -fx-padding: 50;
+    -fx-border-color: #4400aa;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.menu-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 42px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #00eaffcc, 20, 0.7, 0, 0);
+}
+
+/* ── Fondo general de la ventana con la imagen del bills ── */
+.root {
+    -fx-background-image: url("file:images/bills.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+/* ── Tablero encima de la imagen ────────────────────────────── */
+.grid-pane {
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(gaussian, #000000cc, 30, 0.6, 0, 0);
+    -fx-padding: 6;
+    -fx-border-color: #000000;
+    -fx-border-width: 4;
+}
+
+/* ── Casillas con transparencia para ver la imagen debajo ───── */
+.cell-light {
+    -fx-fill: rgba(200, 232, 255, 0.35);
+}
+
+.cell-dark {
+    -fx-fill: rgba(0, 0, 0, 0.55);
+}
