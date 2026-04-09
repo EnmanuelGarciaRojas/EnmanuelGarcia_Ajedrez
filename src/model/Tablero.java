@@ -51,7 +51,7 @@ public class Tablero {
     }
 
     //Verifica si una posicion dada esta dentro de los limites del tablero
-    public boolean posicionValida(int fila, int columna){
+    public static boolean posicionValida(int fila, int columna){
         return(fila >= 0 && fila < Constantes.TAMANO_TABLERO 
               && columna >= 0 && columna < Constantes.TAMANO_TABLERO);
     }
