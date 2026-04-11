@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import java.util.List;
 
 import game.Juego;
 import model.Pieza;
@@ -23,6 +24,7 @@ public class Main extends Application{
     private static final Color COLOR_CELDA_CLARA = Color.web("#c8e8ff", 0.55);
     private static final Color COLOR_CELDA_NEGRA = Color.web("#000010", 0.90);
     private static final Color COLOR_SELECCIONADO = Color.web("#00eaff", 0.75);
+    private static final Color COLOR_MOVIMIENTO_LEGAL = Color.web("#39ff14", 0.70);
 
     private Juego juego;
     private GridPane tableroGrid;
@@ -71,6 +73,7 @@ public class Main extends Application{
     }
 
     private void mostrarTablero(){
+        juego.nuevoJuego();
         tableroGrid = new GridPane();
         tableroGrid.setAlignment(Pos.CENTER);
 
@@ -121,7 +124,67 @@ public class Main extends Application{
         verImagen.setPreserveRatio(true);
         celda.getChildren().add(verImagen);
 
+        final int f = fila;
+        final int c = columna;
+        celda.setOnMouseClicked(event -> clickEnCelda(f, c));
+
         return celda;
+    }
+
+    public void clickEnCelda(int fila, int columna){
+        Pieza clickPieza = juego.getTablero().getPieza(fila, columna);
+
+        if(filaSeleccionada == -1){
+            if(clickPieza != null && clickPieza.blanco == juego.TurnoBlanco()){
+                filaSeleccionada = fila;
+                columnaSeleccionada = columna;
+            }
+        }else {
+            if(filaSeleccionada == fila && columnaSeleccionada == columna){
+                quitarSeleccion();
+            }else if(clickPieza != null && clickPieza.blanco == juego.TurnoBlanco()){
+                filaSeleccionada = fila;
+                columnaSeleccionada = columna;
+            }else {
+                boolean mover = juego.hacerMovimiento(filaSeleccionada, columnaSeleccionada, fila, columna);
+                quitarSeleccion();
+                if(mover){
+                    comprobarEstado();
+                }
+            }
+        }
+
+        renderizarTablero();
+    }
+
+    private void comprobarEstado(){
+        Juego.EstadoJuego estado = juego.getEstadoJuego();
+        actualizarTurno();
+
+        estadoLabel.getStyleClass().remove("label-jaque");
+
+        switch(estado){
+            case JAQUE_MATE -> {
+                String ganador = juego.TurnoBlanco() ? "Negras" : "Blancas";
+                String mensaje = "Jaque mate. " + ganador + " ganan";
+                estadoLabel.setText(mensaje);
+                estadoLabel.getStyleClass().add("label-jaque");
+            }
+            case EMPATE -> {
+                estadoLabel.setText("Tablas por ahogado");
+            }
+            case JAQUE -> {
+                estadoLabel.setText("Jaque");
+                estadoLabel.getStyleClass().add("Label-jaque");
+            }
+            case JUGANDO -> {
+                estadoLabel.setText("En juego");
+            }
+        }
+    }
+
+    public void actualizarTurno(){
+        turnoLabel.setText(juego.TurnoBlanco() ? "Turno: Blancas" : "Turno: Negras");
     }
 
     private void renderizarTablero(){
@@ -143,6 +206,15 @@ public class Main extends Application{
             rect.setFill(COLOR_SELECCIONADO);
         }
 
+        if(filaSeleccionada != -1){
+            List<int[]> movimientosLegales = juego.getMovimientoLegales(filaSeleccionada, columnaSeleccionada);
+            for(int[] movimiento : movimientosLegales){
+                if(movimiento[0] == fila && movimiento[1] == columna){
+                    rect.setFill(COLOR_MOVIMIENTO_LEGAL);
+                }
+            }
+        }
+
         Pieza p = juego.getTablero().getPieza(fila, columna);
         if(p != null){
             try{
@@ -154,6 +226,11 @@ public class Main extends Application{
         }else{
             verImagen.setImage(null);
         }
+    }
+
+    public void quitarSeleccion(){
+        filaSeleccionada = -1;
+        columnaSeleccionada = -1;
     }
     public static void main(String[] args){
         launch(args);

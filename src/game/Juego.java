@@ -26,7 +26,7 @@ public class Juego {
         return tablero;
     }
 
-    public boolean esTurnoBlanco(){
+    public boolean TurnoBlanco(){
         return turnoBlanco;
     }
 
@@ -142,6 +142,7 @@ public class Juego {
                     if(objetivo.blanco != blanco){
                         movimientos.add(new int[]{nf, nc});
                     }
+                    break;
                 }
 
                 nf += d[0];

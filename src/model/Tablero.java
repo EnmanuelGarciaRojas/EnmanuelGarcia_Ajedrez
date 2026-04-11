@@ -14,34 +14,34 @@ public class Tablero {
     }
     
     private void InicializarTablero(){
-        //Piezas negras(filas 6 y 7)
-        piezas[7][0] = new Pieza(TipoPieza.ROOK, false);
-        piezas[7][1] = new Pieza(TipoPieza.KNIGHT, false);
-        piezas[7][2] = new Pieza(TipoPieza.BISHOP, false);
-        piezas[7][3] = new Pieza(TipoPieza.QUEEN, false);
-        piezas[7][4] = new Pieza(TipoPieza.KING, false);
-        piezas[7][5] = new Pieza(TipoPieza.BISHOP, false);
-        piezas[7][6] = new Pieza(TipoPieza.KNIGHT, false);
-        piezas[7][7] = new Pieza(TipoPieza.ROOK, false);
+        //Piezas negras(filas 0 y 1)
+        piezas[0][0] = new Pieza(TipoPieza.ROOK, false);
+        piezas[0][1] = new Pieza(TipoPieza.KNIGHT, false);
+        piezas[0][2] = new Pieza(TipoPieza.BISHOP, false);
+        piezas[0][3] = new Pieza(TipoPieza.QUEEN, false);
+        piezas[0][4] = new Pieza(TipoPieza.KING, false);
+        piezas[0][5] = new Pieza(TipoPieza.BISHOP, false);
+        piezas[0][6] = new Pieza(TipoPieza.KNIGHT, false);
+        piezas[0][7] = new Pieza(TipoPieza.ROOK, false);
 
         //Posicion de los peones negros
         for(int i = 0; i < Constantes.TAMANO_TABLERO; i++){
-            piezas[6][i] = new Pieza(TipoPieza.PAWN, false);
+            piezas[1][i] = new Pieza(TipoPieza.PAWN, false);
         }
 
-        //Piezas blancas(filas 0 y 1)
-        piezas[0][0] = new Pieza(TipoPieza.ROOK, true);
-        piezas[0][1] = new Pieza(TipoPieza.KNIGHT, true);
-        piezas[0][2] = new Pieza(TipoPieza.BISHOP, true);
-        piezas[0][3] = new Pieza(TipoPieza.QUEEN, true);
-        piezas[0][4] = new Pieza(TipoPieza.KING, true);
-        piezas[0][5] = new Pieza(TipoPieza.BISHOP, true);
-        piezas[0][6] = new Pieza(TipoPieza.KNIGHT, true);
-        piezas[0][7] = new Pieza(TipoPieza.ROOK, true);
+        //Piezas blancas(filas 6 y 7)
+        piezas[7][0] = new Pieza(TipoPieza.ROOK, true);
+        piezas[7][1] = new Pieza(TipoPieza.KNIGHT, true);
+        piezas[7][2] = new Pieza(TipoPieza.BISHOP, true);
+        piezas[7][3] = new Pieza(TipoPieza.QUEEN, true);
+        piezas[7][4] = new Pieza(TipoPieza.KING, true);
+        piezas[7][5] = new Pieza(TipoPieza.BISHOP, true);
+        piezas[7][6] = new Pieza(TipoPieza.KNIGHT, true);
+        piezas[7][7] = new Pieza(TipoPieza.ROOK, true);
 
         //Posicion de los peones blancos
         for(int i = 0; i < Constantes.TAMANO_TABLERO; i++){
-            piezas[1][i] = new Pieza(TipoPieza.PAWN, true);
+            piezas[6][i] = new Pieza(TipoPieza.PAWN, true);
         }
     }
 
