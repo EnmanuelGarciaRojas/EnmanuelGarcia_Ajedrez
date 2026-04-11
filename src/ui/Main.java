@@ -3,6 +3,7 @@ package ui;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -169,13 +170,17 @@ public class Main extends Application{
                 String mensaje = "Jaque mate. " + ganador + " ganan";
                 estadoLabel.setText(mensaje);
                 estadoLabel.getStyleClass().add("label-jaque");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Jaque mate", mensaje);
             }
             case EMPATE -> {
                 estadoLabel.setText("Tablas por ahogado");
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Tablas", "Tablas por ahogado");
             }
             case JAQUE -> {
+                String jugador = juego.TurnoBlanco() ? "Jugador blanco" : "Jugador negro";
                 estadoLabel.setText("Jaque");
                 estadoLabel.getStyleClass().add("Label-jaque");
+                mostrarAlerta(Alert.AlertType.WARNING, "Jaque", "Jaque al " + jugador);
             }
             case JUGANDO -> {
                 estadoLabel.setText("En juego");
@@ -231,6 +236,18 @@ public class Main extends Application{
     public void quitarSeleccion(){
         filaSeleccionada = -1;
         columnaSeleccionada = -1;
+    }
+
+    public void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido){
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(contenido);
+
+        alerta.getDialogPane().getStylesheets().add(
+            getClass().getResource("/Tablero.css").toExternalForm()
+        );
+        alerta.showAndWait();
     }
     public static void main(String[] args){
         launch(args);

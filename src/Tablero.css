@@ -129,3 +129,29 @@
 .cell-dark {
     -fx-fill: rgba(0, 0, 0, 0.55);
 }
+
+/* ── Alertas (dialogos de jaque / mate) ──────────────────── */
+.dialog-pane {
+    -fx-background-color: #0a003a;
+    -fx-border-color: #6600ff;
+    -fx-border-width: 2;
+}
+
+.dialog-pane .content.label {
+    -fx-text-fill: #c8e8ff;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #1a0055;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: #2a0088;
+    -fx-text-fill: #c8e8ff;
+    -fx-border-color: #6600ff;
+}
