@@ -12,24 +12,29 @@ public class Juego {
     private Tablero tablero;
     private boolean turnoBlanco;
 
+    //Constructor que inicializa el juego con un tablero vacio y turno de blancas
     public Juego(){
         tablero = new Tablero();
         turnoBlanco = true;
     }
 
+    //Inicia una nueva partida reseteando el tablero y el turno
     public void nuevoJuego(){
         tablero.reiniciarTablero();
         turnoBlanco = true;
     }
 
+    //Retorna el tablero actual del juego
     public Tablero getTablero(){
         return tablero;
     }
 
+    //Indica si es turno de las blancas
     public boolean TurnoBlanco(){
         return turnoBlanco;
     }
 
+    //Realiza un movimiento en el tablero. Retorna true si el movimiento fue valido.
     public boolean hacerMovimiento(int desdeFila, int desdeColumna, int hastaFila, int hastaColumna){
         Pieza pieza = tablero.getPieza(desdeFila, desdeColumna);
         if(pieza == null || pieza.blanco != turnoBlanco){
@@ -44,6 +49,7 @@ public class Juego {
 
         tablero.moverPieza(desdeFila, desdeColumna, hastaFila, hastaColumna);
 
+        //promocion de peon
         if(pieza.tipo == TipoPieza.PAWN && (hastaFila == 0 || hastaFila == 7)){
             TipoPieza promocionPeon = TipoPieza.QUEEN;
             tablero.setPieza(hastaFila, hastaColumna, new Pieza(promocionPeon, pieza.blanco));
@@ -53,6 +59,10 @@ public class Juego {
         return true;
     }
 
+    /* 
+    *Obtiene todos los movimientos legales para una pieza en una posicion dada,
+    *filtrando los que dejarian al rey en jaque
+    */
     public List<int[]> getMovimientoLegales(int fila, int columna){
         Pieza pieza = tablero.getPieza(fila, columna);
         if(pieza == null){
@@ -94,6 +104,7 @@ public class Juego {
         return movimientos;
     }
 
+    //Agrega los movimientos posibles para un peon
     private void movimientosPeon(List<int[]> movimientos, int fila, int columna, boolean blanco){
         int direccion = blanco ? -1 : 1;
         int inicio = blanco ? 6 : 1;
@@ -116,6 +127,7 @@ public class Juego {
         }
     }
 
+    //Agrega los movimientos posibles para un caballo
     private void movimientosCaballo(List<int[]> movimientos, int fila, int columna, boolean blanco){
         int [] df = {-2, -2, -1, -1, 1, 1, 2, 2};
         int [] dc = {-1, 1, -2, 2, -2, 2, -1, 1};
@@ -131,6 +143,7 @@ public class Juego {
         }
     }
 
+    //Agrega movimientos en rayo para arfil, torre y reyna
     private void movimientosRayo(List<int[]> movimientos, int fila, int columna, int[][] direcciones, boolean blanco){
         for(int[] d : direcciones){
             int nf = fila + d[0], nc = columna + d[1];
@@ -151,6 +164,7 @@ public class Juego {
         }
     }
 
+    //Agrega los movimientos posibles para el rey
     private void movimientosRey(List<int[]> movimientos, int fila, int columna, boolean blanco){
         for(int df = -1; df <= 1; df++){
             for(int dc = -1; dc <= 1; dc++){
@@ -166,10 +180,12 @@ public class Juego {
         }
     }
 
+    //Verifica si el rey del bando dado esta en jaque en el tablero actual
     public boolean Jaque(boolean blanco){
         return jaqueEnTablero(tablero, blanco);
     }
 
+    //Verifica si el rey del bando dado esta en jaque en el tablero especificado
     private boolean jaqueEnTablero(Tablero comprobar, boolean blanco){
         int filaRey = -1, columnaRey = -1;
         for(int fila = 0; fila < Constantes.TAMANO_TABLERO; fila++){
@@ -203,6 +219,7 @@ public class Juego {
         return false;
     }
 
+    //Obtiene los movimientos crudos en el tablero, sin cambiar el tablero actual
     private List<int[]> getRawMovesEnTablero(Tablero comprobar, int fila, int columna){
         Pieza pieza = comprobar.getPieza(fila, columna);
         if(pieza == null){
@@ -216,6 +233,7 @@ public class Juego {
         return movimientos;
     }
 
+    //Verifica si hay algun movimiento legal disponibles para el bando dado
     public boolean hayMovimientosLegales(boolean blanco){
         for(int fila = 0; fila < Constantes.TAMANO_TABLERO; fila++){
             for(int columna = 0; columna < Constantes.TAMANO_TABLERO; columna++){
@@ -229,6 +247,7 @@ public class Juego {
         return false;
     }
 
+    //Obtiene el estado actual del juego
     public EstadoJuego getEstadoJuego(){
         boolean enJaque = Jaque(turnoBlanco);
         boolean hayMovimientos = hayMovimientosLegales(turnoBlanco);
@@ -240,6 +259,7 @@ public class Juego {
         return EstadoJuego.JUGANDO;
     }
 
+    //Enumeracion que representa los posibles estados del juego
     public enum EstadoJuego {
         JUGANDO,
         JAQUE,

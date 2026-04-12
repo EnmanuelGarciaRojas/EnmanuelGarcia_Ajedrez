@@ -45,7 +45,7 @@ public class Tablero {
         }
     }
 
-    //Devuelve el estado actual del tablero
+    //retorna el array bidimencional de piezas
     public Pieza[][] getPiezas(){
         return piezas;
     }
@@ -56,11 +56,16 @@ public class Tablero {
               && columna >= 0 && columna < Constantes.TAMANO_TABLERO);
     }
 
+    /*
+    *Reinicia el tablero a la posicion inicial 
+    *Crea un vuevo array de piezas y coloca todas las piezas en sus posiciones iniciales
+    */
     public void reiniciarTablero(){
         piezas = new Pieza[Constantes.TAMANO_TABLERO][Constantes.TAMANO_TABLERO];
         InicializarTablero();
     }
 
+    //crea una copia profunda del tablero actual
     public Tablero copiarTablero(){
         Tablero copiar = new Tablero();
 
@@ -82,12 +87,14 @@ public class Tablero {
         return copiar;
     }
 
+    //vacia la posicion especificada
     public void limpiarTablero(int fila, int columna){
         if(posicionValida(fila, columna)){
             piezas[fila][columna] = null;
         }
     }
 
+    //Mueve una pieza de una posicion a otra dejando la origen vacia
     public void moverPieza(int filaOrigen, int columnaOrigen, int filaDestino, int columnaDestino){
         if(posicionValida(filaOrigen, columnaOrigen) && posicionValida(filaDestino, columnaDestino)){
             piezas[filaDestino][columnaDestino] = piezas[filaOrigen][columnaOrigen];

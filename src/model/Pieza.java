@@ -6,6 +6,7 @@ public class Pieza {
     public final TipoPieza tipo;
     public final boolean blanco;
 
+    //Constructor para crear pieza
     public Pieza(TipoPieza tipo, boolean blanco){
         this.tipo = tipo;
         this.blanco = blanco;

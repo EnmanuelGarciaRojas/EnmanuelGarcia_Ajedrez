@@ -21,23 +21,27 @@ import game.Juego;
 import model.Pieza;
 import util.Constantes;
 
+/*
+*Clase principal de la interfaz grafica del juego.
+*Maneja la ventana, el tablero visual y las interacciones del usuario
+*/
 public class Main extends Application{
     private static final Color COLOR_CELDA_CLARA = Color.web("#c8e8ff", 0.55);
     private static final Color COLOR_CELDA_NEGRA = Color.web("#000010", 0.90);
     private static final Color COLOR_SELECCIONADO = Color.web("#00eaff", 0.75);
     private static final Color COLOR_MOVIMIENTO_LEGAL = Color.web("#39ff14", 0.70);
 
-    private Juego juego;
-    private GridPane tableroGrid;
-    private StackPane[][] celdas;
-    private Label turnoLabel;
-    private Label estadoLabel;
-    private BorderPane root;
+    private Juego juego;            //Logica del juego
+    private GridPane tableroGrid;   //Panel del tablero   
+    private StackPane[][] celdas;   //Celdas del tablero
+    private Label turnoLabel;       //Label del turno
+    private Label estadoLabel;      //Label de estado
+    private BorderPane root;        //root de la escena
 
     private int filaSeleccionada = -1;
     private int columnaSeleccionada = -1;
 
-
+    //Metodo principal de javaFX que inicia la aplicacion, configura la escena y muestra el menu inicial
     @Override
     public void start(Stage stage){
         juego = new Juego();
@@ -54,6 +58,7 @@ public class Main extends Application{
         stage.show();
     }
 
+    //Muestra el menu inicial con opciones para jugar o salir
     private void mostrarMenu(){
         Label titulo = new Label("Ajedrez");
         titulo.getStyleClass().add("titulo-menu");
@@ -73,6 +78,7 @@ public class Main extends Application{
         root.setBottom(null);
     }
 
+    //Muestra el tablero de juego con pieza y controles
     private void mostrarTablero(){
         juego.nuevoJuego();
         tableroGrid = new GridPane();
@@ -112,6 +118,7 @@ public class Main extends Application{
         root.setBottom(abajo);
     }
 
+    //Crea una celda del tablero con rectangulo y vista de imagen
     private StackPane crearCeldasTablero(int fila, int columna){
         StackPane celda = new StackPane();
 
@@ -132,6 +139,7 @@ public class Main extends Application{
         return celda;
     }
 
+    //Maneja el click en una celda del tablero seleccion, deseleccion y movimientos
     public void clickEnCelda(int fila, int columna){
         Pieza clickPieza = juego.getTablero().getPieza(fila, columna);
 
@@ -158,6 +166,7 @@ public class Main extends Application{
         renderizarTablero();
     }
 
+    //Verifica el estado del jueg y actualiza la interfaz, muestra alertas para jaque, jaque mate o tablas
     private void comprobarEstado(){
         Juego.EstadoJuego estado = juego.getEstadoJuego();
         actualizarTurno();
@@ -188,10 +197,12 @@ public class Main extends Application{
         }
     }
 
+    //Actiualiza el Label que muestra el turno actual
     public void actualizarTurno(){
         turnoLabel.setText(juego.TurnoBlanco() ? "Turno: Blancas" : "Turno: Negras");
     }
 
+    //Renderiza todo el tablero actualizando cada celda
     private void renderizarTablero(){
         for(int fila = 0; fila < Constantes.TAMANO_TABLERO; fila++){
             for(int columna = 0; columna < Constantes.TAMANO_TABLERO; columna++){
@@ -200,6 +211,7 @@ public class Main extends Application{
         }
     }
 
+    //Actualiza el contenido visual de una celda especifica
     private void actualizarCelda(int fila, int columna){
         StackPane celda = celdas[fila][columna];
         Rectangle rect = (Rectangle) celda.getChildren().get(0);
@@ -211,6 +223,7 @@ public class Main extends Application{
             rect.setFill(COLOR_SELECCIONADO);
         }
 
+        //Resaltar movimientos legales de la pieza seleccionada
         if(filaSeleccionada != -1){
             List<int[]> movimientosLegales = juego.getMovimientoLegales(filaSeleccionada, columnaSeleccionada);
             for(int[] movimiento : movimientosLegales){
@@ -233,11 +246,14 @@ public class Main extends Application{
         }
     }
 
+    //Deselecciona cualquier celda seleccionada
     public void quitarSeleccion(){
         filaSeleccionada = -1;
         columnaSeleccionada = -1;
     }
 
+    //Muestra un dialogo de alerta con el tema aplicado
+    
     public void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido){
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
