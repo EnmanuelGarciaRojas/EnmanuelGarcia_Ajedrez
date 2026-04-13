@@ -57,15 +57,15 @@ java -cp "bin;lib/*" --module-path "ruta\a\javafx\lib" --add-modules javafx.cont
 4. Ejecuta la clase principal `ui.App`.
 
 ## 5. Estructura del proyecto 
-- `src/ui/App.java`: Clase principal de la interfaz gráfica, maneja la ventana, tablero y eventos de usuario.
+- `src/ui/Main.java`: Clase principal de la interfaz gráfica, maneja la ventana, tablero y eventos de usuario.
 
-- `src/game/ChessGame.java`: Lógica principal del juego, gestiona movimientos, estados del juego y reglas.
+- `src/game/Juego.java`: Lógica principal del juego, gestiona movimientos, estados del juego y reglas.
 
-- `src/model/Board.java`: Representa el tablero y gestiona las posiciones de las piezas.
+- `src/model/Tablero.java`: Representa el tablero y gestiona las posiciones de las piezas.
 
-- `src/model/Piece.java`: Clase que representa una pieza individual con su tipo y color.
+- `src/model/Pieza.java`: Clase que representa una pieza individual con su tipo y color.
 
-- `src/model/PieceType.java`: Enumeración de los tipos de piezas (rey, reina, etc.).
+- `src/model/TipoPieza.java`: Enumeración de los tipos de piezas (rey, reina, etc.).
 
 - `src/util/Constantes.java`: Constantes globales como tamaño del tablero y dimensiones.
 
